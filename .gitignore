@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+dist/
+.dev.vars
+
+# 个人部署配置（含自定义域名等个人信息），不随仓库公开
+wrangler.local.toml
+
+*.log
+.DS_Store

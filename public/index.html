@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  var m = document.cookie.match(/(?:^|; )cic_theme=([^;]*)/);
+  var t = m ? decodeURIComponent(m[1]) : localStorage.getItem('theme');
+  if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#cc785c">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#cc785c">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1117">
+<meta name="application-name" content="Claude IP 检测">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>Claude AI IP 检测 - IP纯净度 - Claude IP 风险查询</title>
+<meta name="description" content="Claude IP 检测：出口 IP 纯净度与信任评分，判断住宅 IP / 机房 IP，识别 VPN、代理、Tor 与高风险出口，并检测 DNS 与 WebRTC 泄露。基于 Cloudflare Workers 构建。">
+<meta name="keywords" content="Claude AI IP检测,Claude IP查询,Claude IP风险检测,IP纯净度,住宅IP,机房IP,Trust Score,Cloudflare Workers">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+
+  <nav class="nav">
+    <a href="https://amw3.eu.org/" id="portalLink" class="portal-btn" title="返回门户首页">← 返回门户</a>
+    <a href="/" class="active">Claude IP 检测</a>
+    <a href="/api/healthz" title="服务健康检查">健康检查</a>
+    <span id="ts-wrap" class="ts-wrap">
+      <button id="ts-btn" class="ts-btn" aria-label="主题" aria-expanded="false" title="切换主题">
+        <svg data-mode-icon="auto" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M3 12h18"/></svg>
+        <svg data-mode-icon="light" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <svg data-mode-icon="dark" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <div id="ts-menu" class="ts-menu" role="menu">
+        <button class="ts-item" data-mode="auto" role="menuitem">跟随系统</button>
+        <button class="ts-item" data-mode="light" role="menuitem">浅色</button>
+        <button class="ts-item" data-mode="dark" role="menuitem">深色</button>
+      </div>
+    </span>
+  </nav>
+
+  <h1>Claude AI IP 风险检测</h1>
+  <div class="ip-section-header">
+    <p class="desc">检测当前 Claude AI 出口 IP 的纯净度、风险、属性（住宅/机房）、DNS、UDP、时区、指纹与安全性</p>
+    <label class="ip-mask-toggle">
+      <span class="ip-mask-toggle-label">隐藏IP</span>
+      <input type="checkbox" id="ipMaskToggle">
+      <span class="ip-mask-toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="ipv6-warn" id="ipv6Warn">⚠️ 当前为 IPv6 环境，不建议采用 IPv6 访问 Claude Code。部分检测结果可能不完整。</div>
+
+  <div class="ip-dual">
+    <div class="ip-hero" id="ipHeroCN">
+      <div class="label">中国出口IPv4</div>
+      <div class="ip-addr" id="ipAddrCN"><div class="loading-bar" style="width:180px;height:24px"></div></div>
+      <div class="ip-geo" id="ipGeoCN"><div class="loading-bar" style="width:220px"></div></div>
+    </div>
+    <div class="ip-hero" id="ipHero">
+      <div class="label">Cloudflare 出口IP</div>
+      <div class="ip-addr" id="ipAddr"><div class="loading-bar" style="width:180px;height:24px"></div></div>
+      <div class="ip-geo" id="ipGeo"><div class="loading-bar" style="width:220px"></div></div>
+    </div>
+    <div class="ip-hero" id="ipHeroClaude">
+      <div class="label">Claude AI出口IP</div>
+      <div class="ip-addr" id="ipAddrClaude"><div class="loading-bar" style="width:180px;height:24px"></div></div>
+      <div class="ip-geo" id="ipGeoClaude"><div class="loading-bar" style="width:220px"></div></div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card trust-score-card">
+      <div class="card-title">Claude AI信任评分(Trust Score)</div>
+      <div class="gauge-wrap" id="gaugeWrap">
+        <div class="gauge-score" id="gaugeScore"><div class="loading-bar" style="width:60px;height:28px"></div></div>
+        <div class="gauge-text" id="gaugeText"></div>
+        <div class="gauge-bar"><div class="gauge-pointer" id="gaugePointer" style="left:0%"></div></div>
+        <div class="gauge-labels"><span>0 高危</span><span>25</span><span>50</span><span>75</span><span>100 可信</span></div>
+        <div class="region-warn" id="regionWarn" style="display:none"></div>
+      </div>
+      <div class="trust-score-filler"></div>
+      <div class="risk-row" id="claudeRegionSupportRow" style="display:none"><span class="risk-label">Claude支持地区</span><span class="risk-value" id="claudeRegionSupport"></span></div>
+      <div class="risk-row" id="scoreFactorsRow" style="display:none"><span class="risk-label">扣分因子</span><span class="risk-value" id="scoreFactors" style="font-weight:400;font-size:0.85em;color:var(--text-muted)"></span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Claude AI出口IP 属性</div>
+      <div id="propsContent">
+        <div class="risk-row"><span class="risk-label">地区</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">城市</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">IP 属性</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">ASN</span><div class="loading-bar" style="width:160px"></div></div>
+        <div class="risk-row"><span class="risk-label">运营商</span><div class="loading-bar" style="width:140px"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Claude AI出口IP安全检测</div>
+      <div id="securityContent">
+        <div class="risk-row"><span class="risk-label">VPN</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">代理 (Proxy)</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">Tor</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">机器人 (Crawler)</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">滥用记录</span><div class="loading-bar" style="width:60px"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-title title-row">
+        <span>Claude 可用性检测<span class="tip-wrap" style="margin-left:4px">ⓘ<span class="tip-text">因为 Claude 服务器通常部署在美国，所以从亚洲访问出现 100ms 以上延迟是正常情况。</span></span></span>
+        <span id="availRefresh" class="mini-btn">刷新</span>
+      </div>
+      <div id="claudeAvailContent">
+        <div class="risk-row"><span class="risk-label">claude.ai</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">anthropic.com</span><div class="loading-bar" style="width:80px"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title title-row">
+        <span>DNS 出口一致性检测<span class="tip-wrap" style="margin-left:4px">ⓘ<span class="tip-text">对比「中性域名」与 claude.ai 所看到的出口 IP。两者不一致说明分流规则或 DNS 出口配置存在问题。</span></span></span>
+        <span id="dnsRefresh" class="mini-btn">重新检测</span>
+      </div>
+      <div id="dnsLeakContent">
+        <div class="risk-row"><span class="risk-label">状态</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">DNS 出口 IP</span><div class="loading-bar" style="width:140px"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title title-row">
+        <span>WebRTC UDP 泄露检测</span>
+        <span id="udpRefresh" class="mini-btn">重新检测</span>
+      </div>
+      <div id="udpLeakContent">
+        <div class="risk-row"><span class="risk-label">状态</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">UDP 出口 IP</span><div class="loading-bar" style="width:140px"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card">
+      <div class="card-title">Claude AI出口IP用户设备信息</div>
+      <div id="deviceContent">
+        <div class="risk-row"><span class="risk-label">时区</span><div class="loading-bar" style="width:120px"></div></div>
+        <div class="risk-row"><span class="risk-label">语言</span><div class="loading-bar" style="width:160px"></div></div>
+        <div class="risk-row"><span class="risk-label">操作系统 / 浏览器</span><div class="loading-bar" style="width:200px"></div></div>
+        <div class="risk-row"><span class="risk-label">触屏</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">网络类型</span><div class="loading-bar" style="width:80px"></div></div>
+        <div class="risk-row"><span class="risk-label">Do Not Track</span><div class="loading-bar" style="width:60px"></div></div>
+        <div class="risk-row"><span class="risk-label">WebGL 渲染器</span><div class="loading-bar" style="width:200px"></div></div>
+        <div class="risk-row"><span class="risk-label">Canvas 指纹</span><div class="loading-bar" style="width:160px"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card">
+      <div class="card-title title-row">
+        <span>Claude AI 出口 IP 历史记录<br><span class="title-sub">0记录，100%隐私友好，历史数据仅做浏览器本地存储，方便查阅</span></span>
+        <span id="historyClear" class="mini-btn">清除</span>
+      </div>
+      <div id="ipHistoryContent" class="history-grid">加载中...</div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="notes-title">📖 关于本版本</div>
+    <ul>
+      <li>本页为 <strong>Cloudflare Workers</strong> 实现，全部逻辑运行在 Cloudflare 边缘节点，无需服务器。</li>
+      <li>IP 归属数据源：ipwho.is → ipapi.co → ipleak.net（逐级降级）；风险数据源：api.ipquery.io + Tor Project 官方出口列表。</li>
+      <li>DNS 模块检测的是「出口一致性」，与基于自建权威 DNS 的解析器泄露检测存在差异，详见部署文档。</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Claude IP 检测 · Powered by Cloudflare Workers ·
+  <a href="/api/healthz">健康检查</a> ·
+  <a href="https://amw3.eu.org/" id="portalLinkFooter">返回门户</a>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
