@@ -323,9 +323,11 @@ Deployed claude-ip-check triggers
   ipcheck.amw3.eu.org (custom domain)
 ```
 
-> ⚠️ 两点容易踩：
+> ⚠️ 三点容易踩：
 > 1. 声明了 `[[routes]]` 却没有 `workers_dev = true` 时，wrangler 会**默认关闭 `workers.dev`**（本项目已显式开启）。
 > 2. **不要把个人域名写进 `wrangler.toml`**，那份是公开模板，别人 fork 后没有你的 zone，部署会失败。
+> 3. 个人实例**固定用 `npm run deploy:domain`**。用 `npm run deploy`（读 `wrangler.toml`）会让 wrangler 按模板同步路由，
+>    可能把已有的自定义域名路由覆盖掉，之后需重新绑定。
 
 ---
 
