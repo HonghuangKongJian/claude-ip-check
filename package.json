@@ -13,9 +13,6 @@
   },
   "cloudflare": {
     "bindings": {
-      "PORTAL_URL": {
-        "description": "页头「返回门户」按钮的地址，例如 `https://your-site.com/`。**留空则隐藏该按钮**。"
-      },
       "DNS_TEST_HOSTS": {
         "description": "可选的逗号分隔主机名，用于出口一致性探测。留空即只探测当前域名。"
       }

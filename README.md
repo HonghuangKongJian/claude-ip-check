@@ -292,10 +292,12 @@ Deployed claude-ip-check triggers
 
 | Name | Type | Value |
 |---|---|---|
-| `PORTAL_URL` | Text | 门户地址，例如 `https://example.com/`；**留空则隐藏「返回门户」按钮** |
 | `DNS_TEST_HOSTS` | Text | 留空，或填 `d1.example.com,d2.example.com`（逗号分隔的额外探测域名） |
 | `FLAG_CDN` | Text | `https://flagcdn.com/24x18/{cc}.png` |
 
+> 「返回门户」按钮的地址已内置在 `wrangler.toml` 的 `PORTAL_URL` 中，一键部署时**无需填写**，
+> 部署页也不会出现该项。确需更换门户地址时，才在此处添加 `PORTAL_URL` 变量覆盖。
+>
 > 网页端添加的变量优先级高于 `wrangler.toml` 的 `[vars]`，两者都配时以网页端为准。
 
 ---
@@ -350,13 +352,10 @@ curl https://<域名>/api/iprisk/1.1.1.1
 
 | 变量 | 配置位置 | 默认值 | 说明 |
 |---|---|---|---|
-| `PORTAL_URL` | 网页 Variables / `wrangler.local.toml [vars]` | 空 | 页头「返回门户」按钮指向的地址，**留空则隐藏按钮** |
+| `PORTAL_URL` | `wrangler.toml [vars]`（内置） | `https://amw3.eu.org/` | 页头「返回门户」按钮地址，内置固定值；仅在控制台添加同名变量可覆盖 |
 | `DNS_TEST_HOSTS` | 网页 Variables / `wrangler.toml [vars]` | 空 | 逗号分隔的额外探测域名，用于 DNS 出口一致性比对 |
 | `FLAG_CDN` | 网页 Variables / `wrangler.toml [vars]` | `https://flagcdn.com/24x18/{cc}.png` | 国旗图片模板，`{cc}` 替换小写国家码 |
 | `IP_KV` | 网页 Bindings / `[[kv_namespaces]]` | 未绑定 | 可选 KV 缓存命名空间，绑定名必须写作 `IP_KV` |
-
-> `wrangler.toml` 是公开模板，`PORTAL_URL` 默认为空（不显示门户按钮）。
-> 需要该按钮时，写入 `wrangler.local.toml` 或在控制台 Variables 中配置。
 
 ---
 
@@ -385,8 +384,8 @@ curl https://example.com/api/iprisk/1.1.1.1 | jq
 
 ```
 cf-claude-ip-check/
-├── wrangler.toml          # 公开模板配置（入库；不含任何私有域名）
-├── wrangler.local.toml    # 个人配置（.gitignore 忽略；含自定义域名与 PORTAL_URL）
+├── wrangler.toml          # 公开模板配置（入库；PORTAL_URL 内置）
+├── wrangler.local.toml    # 个人配置（.gitignore 忽略；可选，含自定义域名）
 ├── package.json
 ├── src/
 │   ├── index.js           # 路由入口

@@ -21,8 +21,8 @@ run_worker_first = true
 enabled = true
 
 [vars]
-# 页头「返回门户」按钮指向的地址。留空则自动隐藏该按钮。
-PORTAL_URL = ""
+# 页头「返回门户」按钮指向的地址。内置固定值，部署时无需填写；如需更换可在此覆盖。
+PORTAL_URL = "https://amw3.eu.org/"
 
 # 分流一致性探测使用的额外主机名（逗号分隔）。留空则只使用当前域名。
 # 例：DNS_TEST_HOSTS = "d1.example.com,d2.example.com"
