@@ -1,5 +1,7 @@
 # Claude AI IP 风险检测 · Cloudflare 版
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
+
 一套 **可完整部署在 Cloudflare** 的 Claude AI 出口 IP 风险检测页。
 后端为单个 Cloudflare Worker（静态资源通过 Assets 绑定同仓托管），无需服务器、无数据库依赖，全球边缘运行。
 
@@ -146,11 +148,13 @@ git push -u origin main
 
 #### 第 2 步：把按钮放进 README
 
+已放在本项目 README 顶部，可直接复制：
+
 ```markdown
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR/REPO)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
 ```
 
-仓库是 monorepo、本项目在子目录时，追加 `rootDir`：
+自己的 fork 记得把 `14649814/claude-ip-check` 换成你的仓库路径。仓库是 monorepo、本项目在子目录时，追加 `rootDir`：
 
 ```
 https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR/REPO&rootDir=cf-claude-ip-check
