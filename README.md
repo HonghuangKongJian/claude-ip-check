@@ -18,7 +18,7 @@
 - [一、功能清单](#一功能清单)
 - [二、数据源](#二数据源)
 - [三、信任评分模型](#三信任评分模型)
-- [四、部署](#四部署) —— 含 **Cloudflare 控制台网页部署教程**
+- [四、部署](#四部署) —— 含 **一键部署按钮** 与 **Cloudflare 控制台网页部署教程**
 - [五、配置项速查](#五配置项速查)
 - [六、API](#六api)
 - [七、目录结构](#七目录结构)
@@ -115,33 +115,74 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 ### 方式零：一键部署（Deploy to Cloudflare 按钮）
 
-Cloudflare 官方提供「Deploy to Cloudflare」按钮：点击后自动完成 **Fork 仓库 → 读取 `wrangler.toml` → Workers Builds 构建 → 部署**，全程无需本机 Node.js。
+Cloudflare 官方「Deploy to Cloudflare」按钮，别人点一下就能在他自己的账号里跑起来，
+全程不碰命令行、不需要本机 Node.js。机制是：
 
-**先在 README 顶部加一行徽章**（把 `YOUR/REPO` 换成你的公开仓库）：
+> 点击按钮 → 授权 → Cloudflare **把仓库 fork 到对方 GitHub/GitLab** → 读取 `wrangler.toml`
+> → Workers Builds 执行 `npm install` + `npx wrangler deploy` → 自动 provision `wrangler.toml`
+> 里声明的绑定（KV / D1 / R2 等）→ 返回 `*.workers.dev` 地址。
+
+#### 前提：仓库必须公开
+
+这是唯一的硬门槛。private 仓库按钮不可用，只能走「方式一：控制台连接 Git 仓库」。
+
+#### 第 1 步：推到公开仓库（仓库所有者做一次）
+
+```bash
+git remote add origin https://github.com/<你>/claude-ip-check.git
+git push -u origin main
+```
+
+`wrangler.toml` 必须保持**干净模板**——不含任何个人域名或私有变量。
+本项目已按此拆分：
+
+| 文件 | 用途 | 是否入库 |
+|---|---|---|
+| `wrangler.toml` | 公开模板，按钮读的就是它 | ✅ 提交 |
+| `wrangler.local.toml` | 个人配置（含 `ipcheck.amw3.eu.org` 路由） | ❌ `.gitignore` 忽略 |
+
+> **这是最容易踩的坑**：若把 `[[routes]] custom_domain = true` 连同个人域名留在 `wrangler.toml` 里，
+> 别人 fork 后部署会直接报错——他的账号里没有你的 zone，Cloudflare 无法签发这个域名。
+
+#### 第 2 步：把按钮放进 README
 
 ```markdown
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR/REPO)
 ```
 
-若本项目在仓库子目录里，URL 追加目录路径：
+仓库是 monorepo、本项目在子目录时，追加 `rootDir`：
 
 ```
 https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR/REPO&rootDir=cf-claude-ip-check
 ```
 
-**点击后按提示操作：**
+#### 第 3 步：对方点按钮
 
-| 步骤 | 要做什么 |
+| 步骤 | 对方要做什么 |
 |---|---|
-| 1 | 授权 Cloudflare 访问 GitHub / GitLab（仅首次） |
-| 2 | 确认仓库名与 Worker 名称（默认 `claude-ip-check`） |
-| 3 | 检查 Build command 为 `npm install`、Deploy command 为 `npx wrangler deploy` |
-| 4 | 点 **Deploy**，等待日志出现 `Total Upload: 25.7 KiB / gzip: 8.7 KiB` |
-| 5 | 打开 `https://claude-ip-check.<你的子域>.workers.dev` |
+| 1 | 点按钮，登录 Cloudflare |
+| 2 | 授权 Cloudflare 访问其 GitHub（仅首次） |
+| 3 | 确认 fork 后的仓库名、Worker 名（默认 `claude-ip-check`） |
+| 4 | 确认 Build command `npm install` / Deploy command `npx wrangler deploy` |
+| 5 | 点 **Deploy**，等日志出现 `Total Upload: 25.7 KiB / gzip: 8.7 KiB` |
+| 6 | 打开 `https://claude-ip-check.<他的子域>.workers.dev` |
 
-**前置条件**：仓库必须**公开**（private 仓库按钮不可用，请用方式一）。
+全程约 1 分钟。后续他改自己的 fork 并推送，Workers Builds 会自动重新部署。
 
-> 项目没有 `build` 脚本，若 Build command 被预填成 `npm run build` 会直接失败，手动改成 `npm install` 即可。`[assets]` 会在 `wrangler deploy` 阶段自动打包 `public/`，不需要产物目录。
+#### 两个已知问题
+
+1. **Build command 别留空**：本项目没有 `build` 脚本，留空会被默认执行 `npm run build` 而失败；
+   填 `npm install` 即可。`[assets]` 在 `wrangler deploy` 阶段自动打包 `public/`，不需要产物目录。
+2. **`workers.dev` 在中国大陆常被 DNS 污染**（本项目实测解析到 `157.240.3.50`）。
+   对方若在国内，部署完同样需要**绑自己的域名**才能打开，见 [绑定自定义域名](#绑定自定义域名推荐)。
+
+#### 不想公开仓库的替代方案
+
+| 方案 | 代价 |
+|---|---|
+| 控制台连接 Git 仓库（方式一） | 对方需有仓库访问权，一次性配置 |
+| 打包 zip 发人，对方本地 `npm install && npm run deploy` | 两条命令，非"一键" |
+| 你部署好后只分享访问链接 | 最省事，但用的是你的账号额度 |
 
 ---
 
@@ -247,7 +288,8 @@ npx wrangler deploy
 npm install          # 安装 wrangler
 npx wrangler login   # 浏览器授权登录（无需手动配 Token）
 npm run dev          # 本地预览 http://localhost:8787
-npm run deploy       # 部署
+npm run deploy       # 部署（仅 workers.dev，用公开模板 wrangler.toml）
+npm run deploy:domain # 部署并绑定自定义域名（用个人配置 wrangler.local.toml）
 ```
 
 > 本机若设置了代理，本地预览时需 `NO_PROXY=127.0.0.1,localhost`，否则连不上本地服务。
@@ -264,7 +306,8 @@ npm run deploy       # 部署
 
 要求：`example.com` 的 DNS 已托管在 Cloudflare（同一账号）。
 
-**命令行方式（本项目已采用）**：在 `wrangler.toml` 声明 `custom_domain`，部署时自动建 DNS 记录并签证书：
+**命令行方式（本项目已采用）**：把 `custom_domain` 写进**个人配置** `wrangler.local.toml`（已在 `.gitignore` 中），
+部署时自动建 DNS 记录并签证书：
 
 ```toml
 [[routes]]
@@ -272,7 +315,7 @@ pattern = "ipcheck.amw3.eu.org"
 custom_domain = true
 ```
 
-然后 `npm run deploy`，输出会同时列出两条路由：
+然后 `npm run deploy:domain`，输出会同时列出两条路由：
 
 ```
 Deployed claude-ip-check triggers
@@ -280,8 +323,9 @@ Deployed claude-ip-check triggers
   ipcheck.amw3.eu.org (custom domain)
 ```
 
-> ⚠️ 一旦声明了 `[[routes]]` 而未显式写 `workers_dev`，wrangler 会**默认关闭 `workers.dev`**。
-> 想两者都保留就加 `workers_dev = true`（本项目已加）。
+> ⚠️ 两点容易踩：
+> 1. 声明了 `[[routes]]` 却没有 `workers_dev = true` 时，wrangler 会**默认关闭 `workers.dev`**（本项目已显式开启）。
+> 2. **不要把个人域名写进 `wrangler.toml`**，那份是公开模板，别人 fork 后没有你的 zone，部署会失败。
 
 ---
 
@@ -349,10 +393,13 @@ curl https://<你的域名>/api/iprisk/1.1.1.1
 
 | 变量 | 配置位置 | 默认值 | 说明 |
 |---|---|---|---|
-| `PORTAL_URL` | 网页 Variables / `wrangler.toml [vars]` | `https://amw3.eu.org/` | 页头「返回门户」按钮指向的地址，留空则隐藏按钮 |
+| `PORTAL_URL` | 网页 Variables / `wrangler.local.toml [vars]` | 空 | 页头「返回门户」按钮指向的地址，**留空则隐藏按钮** |
 | `DNS_TEST_HOSTS` | 网页 Variables / `wrangler.toml [vars]` | 空 | 逗号分隔的额外探测域名，用于 DNS 出口一致性比对 |
 | `FLAG_CDN` | 网页 Variables / `wrangler.toml [vars]` | `https://flagcdn.com/24x18/{cc}.png` | 国旗图片模板，`{cc}` 替换小写国家码 |
 | `IP_KV` | 网页 Bindings / `[[kv_namespaces]]` | 未绑定 | 可选 KV 缓存命名空间，绑定名必须写作 `IP_KV` |
+
+> `wrangler.toml` 是公开模板，里面对 `PORTAL_URL` 的默认值是**空**（即不显示门户按钮）。
+> 你自己的实例若要显示，写进 `wrangler.local.toml` 或直接在控制台 Variables 里配。
 
 ---
 
@@ -381,7 +428,8 @@ curl https://<your-domain>/api/iprisk/1.1.1.1 | jq
 
 ```
 cf-claude-ip-check/
-├── wrangler.toml          # Worker 配置（含 Assets、KV、路由）
+├── wrangler.toml          # 公开模板配置（提交；不含个人域名）
+├── wrangler.local.toml    # 个人配置（.gitignore 忽略；含自定义域名与 PORTAL_URL）
 ├── package.json
 ├── src/
 │   ├── index.js           # 路由入口
@@ -389,6 +437,7 @@ cf-claude-ip-check/
 │       ├── http.js        # 超时 fetch 封装 / IP 校验
 │       ├── cache.js       # KV → Cache API 二级缓存
 │       ├── geoip.js       # IP 归属查询（三源降级）
+│       ├── i18n.js        # 国家代码 → 中文名
 │       ├── iprisk.js      # 风险画像合成
 │       ├── trustscore.js  # 评分模型与地区策略
 │       ├── tor.js         # Tor 出口列表
