@@ -1,5 +1,7 @@
 # Claude AI IP 风险检测 · Cloudflare 版
 
+> 💡 **部署前提示**：点击下方按钮前，**请确保当前浏览器已登录 GitHub 账号**。若首次授权后直接进入了“选择仓库”界面且找不到项目，只需先手动 [Fork 本项目](https://github.com/14649814/claude-ip-check) 到自己名下，再回 Cloudflare 刷新选择即可。
+
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
 
 一套 **可完整部署在 Cloudflare** 的 Claude AI 出口 IP 风险检测页。
@@ -118,6 +120,7 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 | 步骤 | 操作 |
 |---|---|
+| 0 | **前置准备**：确保浏览器**已预先登录 GitHub 账号**（避免跳转授权导致参数丢失） |
 | 1 | 点按钮，登录 Cloudflare 账号 |
 | 2 | 授权 Cloudflare 访问 GitHub / GitLab（仅首次） |
 | 3 | 确认 fork 后的仓库名与 Worker 名（默认 `claude-ip-check`） |
@@ -129,11 +132,12 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 **前提**：仓库必须**公开**。私有仓库无法使用该按钮，请改用方式二。
 
-**两个已知问题**
+**常见问题与已知坑点**
 
 1. **Build command 不要留空**。本项目没有 `build` 脚本，留空时默认执行 `npm run build` 会直接失败；
    填 `npm install` 即可。`[assets]` 在 `wrangler deploy` 阶段自动打包 `public/`，不需要产物目录。
-2. **`workers.dev` 在中国大陆常被 DNS 污染**（实测解析到 `157.240.3.50`）。若访问者位于该网络环境，
+2. **首次授权后跳入“选择仓库”却找不到项目**：若未提前登录 GitHub，初次多层重定向授权可能导致一键部署参数丢失，Cloudflare 会误进入常规导入页面。**解决办法**：直接在 GitHub 上手动 [Fork 本项目](https://github.com/14649814/claude-ip-check)，然后回到 Cloudflare 刷新选择该仓库即可。
+3. **`workers.dev` 在中国大陆常被 DNS 污染**（实测解析到 `157.240.3.50`）。若访问者位于该网络环境，
    部署后需绑定自有域名才能打开，见 [绑定自定义域名](#绑定自定义域名)。
 
 **运行时若出现在中国大陆**，建议直接跳到 [绑定自定义域名](#绑定自定义域名)，否则页面无法打开。
