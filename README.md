@@ -1,13 +1,22 @@
 # Claude AI IP 风险检测 · Cloudflare 版
 
-> 💡 **部署前提示**：点击下方按钮前，**请确保当前浏览器已登录 GitHub 账号**。若首次授权后直接进入了“选择仓库”界面且找不到项目，只需先手动 [Fork 本项目](https://github.com/14649814/claude-ip-check) 到自己名下，再回 Cloudflare 刷新选择即可。
-
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
-
 一套 **可完整部署在 Cloudflare** 的 Claude AI 出口 IP 风险检测页。
 后端为单个 Cloudflare Worker（静态资源通过 Assets 绑定同仓托管），无需服务器、无数据库依赖，全球边缘运行。
 
 演示站：<https://ipcheck.amw3.eu.org>
+
+---
+
+### 🚀 极简两步部署（先 Fork，后部署）
+
+> 💡 **为什么推荐先 Fork？**  
+> 拥有真正的 GitHub Fork 归属。日后原项目更新，只需在 GitHub 网页端点击 **`Sync fork`**，Cloudflare 就会**全自动同步构建部署最新版**，免去本地拉取代码的烦琐！
+
+| 第一步：Fork 仓库到个人账号 | 第二步：导入 Cloudflare 部署 |
+| :---: | :---: |
+| [![Fork on GitHub](https://img.shields.io/badge/1._点击_Fork_本项目-24292e?style=for-the-badge&logo=github&logoColor=white)](https://github.com/14649814/claude-ip-check/fork) | [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://dash.cloudflare.com/?to=/:account/workers-and-pages/create) |
+
+*(若不想在个人 GitHub 建立 Fork 关系，也可直接使用 [Cloudflare 独立克隆部署按钮](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check))*
 
 **目录**
 
@@ -97,96 +106,70 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 ## 四、部署
 
-四种方式任选，**推荐方式一**：一次点击即可完成 fork、构建与部署，无需本地环境，也无需改动任何配置。
+部署方式任选，**强烈推荐方式一**：先 Fork 到自己 GitHub，再导入 Cloudflare 部署。全程只需网页点击，无需本地环境，且今后支持 **`Sync fork` 一键自动同步更新**。
 
-| 方式 | 适用场景 | 是否需要本机环境 |
+| 方式 | 适用场景 | 是否需要本机环境 | 后续更新方式 |
+|---|---|---|---|
+| 一、先 Fork 后连接部署（推荐） | 长期使用、零命令网页一键更新 | 否 | 网页点 `Sync fork` 自动重新部署 |
+| 二、官方 Deploy 按钮一键部署 | 快速验证、克隆为独立仓库 | 否 | 需本地添加 upstream 同步 |
+| 三、控制台手动创建 + 命令行上传 | 需先建好资源再上传 | 是（Node ≥ 18） | 本地命令行部署 |
+| 四、纯命令行 `wrangler deploy` | 本地开发与二次开发验证 | 是（Node ≥ 18） | 本地命令行部署 |
+
+---
+
+### 方式一：先 Fork 后连接部署（强烈推荐）
+
+**第 1 步：Fork 仓库到自己的 GitHub**
+
+1. 确保已登录 GitHub，点击 👉 **[一键 Fork 本项目](https://github.com/14649814/claude-ip-check/fork)**。
+2. 保持默认仓库名 `claude-ip-check`，点击绿色的 **Create fork**（约 3 秒完成）。
+
+**第 2 步：在 Cloudflare 控制台导入仓库**
+
+1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)。
+2. 进入左侧导航栏 **Workers & Pages → Create（创建）**。
+3. 选择 **Import a repository**（部分界面显示为 *Connect to Git* 或 *导入仓库*）。
+4. 授权 Cloudflare 访问您的 GitHub，并在仓库列表中选中刚刚 Fork 的 **`claude-ip-check`**。
+
+> 💡 **若列表中找不到刚 Fork 的仓库**：说明初次授权时勾选了“仅选择指定仓库”。点击列表上方的 *Configure GitHub app* 或 *Adjust permissions*，勾选新增的 `claude-ip-check` 即可。
+
+**第 3 步：确认构建配置**
+
+| 字段 | 填写内容 | 说明 |
 |---|---|---|
-| 一、一键部署按钮 | 最快，几十秒完成 | 否 |
-| 二、控制台连接 Git 仓库 | 长期维护、推送自动部署 | 否 |
-| 三、控制台手动创建 + 命令行上传 | 需先建好资源再上传 | 是（Node ≥ 18） |
-| 四、纯命令行 `wrangler deploy` | 本地开发与快速验证 | 是（Node ≥ 18） |
-
----
-
-### 方式一：一键部署
-
-点击 README 顶部的 **Deploy to Cloudflare** 按钮，Cloudflare 会依次完成：
-
-> 授权 → **把仓库 fork 到自己的 GitHub / GitLab** → 读取 `wrangler.toml`
-> → Workers Builds 执行 `npm install` + `npx wrangler deploy` → 自动 provision `wrangler.toml`
-> 里声明的绑定（KV / D1 / R2 等）→ 返回 `*.workers.dev` 地址。
-
-**操作步骤**
-
-| 步骤 | 操作 |
-|---|---|
-| 0 | **前置准备**：确保浏览器**已预先登录 GitHub 账号**（避免跳转授权导致参数丢失） |
-| 1 | 点按钮，登录 Cloudflare 账号 |
-| 2 | 授权 Cloudflare 访问 GitHub / GitLab（仅首次） |
-| 3 | 确认 fork 后的仓库名与 Worker 名（默认 `claude-ip-check`） |
-| 4 | 确认 Build command 为 `npm install`、Deploy command 为 `npx wrangler deploy` |
-| 5 | 点 **Deploy**，等待日志出现 `Total Upload: 25.7 KiB / gzip: 8.7 KiB` |
-| 6 | 打开 `https://claude-ip-check.<子域>.workers.dev` |
-
-全程约 1 分钟。此后修改自己的 fork 并推送，Workers Builds 会自动重新部署。
-
-**前提**：仓库必须**公开**。私有仓库无法使用该按钮，请改用方式二。
-
-**常见问题与已知坑点**
-
-1. **Build command 不要留空**。本项目没有 `build` 脚本，留空时默认执行 `npm run build` 会直接失败；
-   填 `npm install` 即可。`[assets]` 在 `wrangler deploy` 阶段自动打包 `public/`，不需要产物目录。
-2. **首次授权后跳入“选择仓库”却找不到项目**：若未提前登录 GitHub，初次多层重定向授权可能导致一键部署参数丢失，Cloudflare 会误进入常规导入页面。**解决办法**：直接在 GitHub 上手动 [Fork 本项目](https://github.com/14649814/claude-ip-check)，然后回到 Cloudflare 刷新选择该仓库即可。
-3. **`workers.dev` 在中国大陆常被 DNS 污染**（实测解析到 `157.240.3.50`）。若访问者位于该网络环境，
-   部署后需绑定自有域名才能打开，见 [绑定自定义域名](#绑定自定义域名)。
-
-**运行时若出现在中国大陆**，建议直接跳到 [绑定自定义域名](#绑定自定义域名)，否则页面无法打开。
-
----
-
-### 方式二：控制台连接 Git 仓库
-
-**第 1 步：把代码推到 Git 仓库**
-
-仓库根目录需包含 `wrangler.toml`、`src/`、`public/`、`package.json`。
-若项目位于子目录，记下相对路径（如 `cf-claude-ip-check`），下一步需要填写。
-
-```bash
-git init && git add . && git commit -m "init"
-git remote add origin <仓库地址>
-git push -u origin main
-```
-
-**第 2 步：在控制台创建 Worker**
-
-1. 进入 **Workers & Pages → Create**。
-2. 选择 **Import a repository**（部分界面显示为 *Connect to Git* / *导入仓库*）。
-3. 首次使用需授权 Cloudflare 访问 GitHub / GitLab，按提示完成授权。
-4. 选中刚推送的仓库和分支（默认 `main`）。
-
-**第 3 步：填写构建配置**
-
-| 字段 | 填写内容 |
-|---|---|
-| Project name | `claude-ip-check`（须与 `wrangler.toml` 的 `name` 一致） |
-| Root directory (path to application) | 仓库根目录填 `/`；项目在子目录则填 `cf-claude-ip-check` |
-| Build command | `npm install` |
-| Deploy command | `npx wrangler deploy` |
-| Node version | 18 或更高 |
-
-> **不要**把 Build command 留空后期待默认执行 `npm run build`——本项目没有 build 脚本，
-> 那样构建会失败。`wrangler.toml` 里的 `[assets]` 会在 `wrangler deploy` 时自动打包
-> `public/` 目录，无需额外产物目录。
+| Project name | `claude-ip-check` | 须与 `wrangler.toml` 的 `name` 一致 |
+| Root directory | `/` | 仓库根目录直接填 `/` |
+| Build command | `npm install` | ⚠️ **切勿留空**，本项目无 build 脚本，填 `npm install` 即可 |
+| Deploy command | `npx wrangler deploy` | 保持默认即可 |
+| Node version | 18 或更高 | 保持默认 |
 
 **第 4 步：保存并部署**
 
-点击 **Save and Deploy**。首次构建约 1–2 分钟，日志中出现
-`Total Upload: 25.7 KiB / gzip: 8.7 KiB` 即为成功。
+点击 **Save and Deploy**。初次构建约 1 分钟，日志出现 `Total Upload: ...` 即表示部署成功，并返回 `https://claude-ip-check.<子域>.workers.dev` 访问地址。
 
-完成后在 **Settings → Domains & Routes** 可以看到分配到的
-`https://claude-ip-check.<子域>.workers.dev`。
+**🌟 日后如何同步原作者更新？**
 
-**后续更新**：直接 `git push`，Cloudflare 会自动触发重新构建部署。
+当原作者发布新功能或修复时，您无需敲任何命令：
+1. 打开自己 GitHub 上的该仓库页面；
+2. 点击标题正下方的 **`Sync fork` → `Update branch`**；
+3. **Cloudflare 会自动检测到新提交并自动重新构建部署**，约几十秒后您的站点即可无缝升级为最新版！
+
+---
+
+### 方式二：官方 Deploy 按钮一键部署（克隆为独立仓库）
+
+若不想与原项目建立 GitHub Fork 关系，可使用 Cloudflare 官方提供的 Deploy 按钮：
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
+
+Cloudflare 会在获得授权后，调用 API 在您的 GitHub 下**克隆创建一个全新独立的同名仓库**并自动绑定部署：
+
+> 授权 → **克隆创建全新独立仓库** → 读取 `wrangler.toml` → Workers Builds 执行 `npm install` + `npx wrangler deploy` → 返回 `*.workers.dev` 地址。
+
+**注意**：
+1. 此方式创建的是独立仓库（非官方 Fork），页面上不具备 GitHub 的 `Sync fork` 按钮，后续同步更新需在本地终端通过 `git remote add upstream` 手动拉取。
+2. **Build command** 同样需确认填写为 `npm install`，切勿留空。
+3. `workers.dev` 域名在大陆网络环境下可能受 DNS 污染，如遇无法打开，请参考下方 [绑定自定义域名](#绑定自定义域名)。
 
 ---
 
