@@ -286,19 +286,22 @@ Deployed claude-ip-check triggers
 
 ---
 
-### 配置环境变量
+### 配置环境变量（可选）
 
 网页路径：**Worker → Settings → Variables and Secrets → Add**
 
-| Name | Type | Value |
-|---|---|---|
-| `DNS_TEST_HOSTS` | Text | 留空，或填 `d1.example.com,d2.example.com`（逗号分隔的额外探测域名） |
-| `FLAG_CDN` | Text | `https://flagcdn.com/24x18/{cc}.png` |
+所有配置均已内置默认值，**不添加任何变量即可正常运行**。仅在需要定制时才添加同名变量覆盖：
 
-> 「返回门户」按钮的地址已内置在 `wrangler.toml` 的 `PORTAL_URL` 中，一键部署时**无需填写**，
-> 部署页也不会出现该项。确需更换门户地址时，才在此处添加 `PORTAL_URL` 变量覆盖。
+| Name | Type | Value | 内置默认值 |
+|---|---|---|---|
+| `PORTAL_URL` | Text | 门户地址；设为 `-` 可隐藏「返回门户」按钮 | `https://amw3.eu.org/` |
+| `DNS_TEST_HOSTS` | Text | `d1.example.com,d2.example.com`（逗号分隔的额外探测域名） | 空（只探测当前域名） |
+| `FLAG_CDN` | Text | `https://flagcdn.com/24x18/{cc}.png` | 同左 |
+
+> 网页端变量优先级高于内置默认值。默认值统一定义在 `src/lib/config.js` 的 `DEFAULTS`。
 >
-> 网页端添加的变量优先级高于 `wrangler.toml` 的 `[vars]`，两者都配时以网页端为准。
+> 之所以不在 `wrangler.toml` 声明 `[vars]`：Deploy 按钮会把其中声明的变量作为待填项
+> 呈现给部署者，与「零配置一键部署」的目标冲突。
 
 ---
 
@@ -350,12 +353,16 @@ curl https://<域名>/api/iprisk/1.1.1.1
 
 完整配置步骤见「四、部署 → 配置环境变量 / 启用 KV 缓存」。下表为速查：
 
-| 变量 | 配置位置 | 默认值 | 说明 |
+全部可留空——每项都内置了默认值，一键部署无需填写。
+
+| 变量 | 配置位置 | 内置默认值 | 说明 |
 |---|---|---|---|
-| `PORTAL_URL` | `wrangler.toml [vars]`（内置） | `https://amw3.eu.org/` | 页头「返回门户」按钮地址，内置固定值；仅在控制台添加同名变量可覆盖 |
-| `DNS_TEST_HOSTS` | 网页 Variables / `wrangler.toml [vars]` | 空 | 逗号分隔的额外探测域名，用于 DNS 出口一致性比对 |
-| `FLAG_CDN` | 网页 Variables / `wrangler.toml [vars]` | `https://flagcdn.com/24x18/{cc}.png` | 国旗图片模板，`{cc}` 替换小写国家码 |
+| `PORTAL_URL` | 网页 Variables | `https://amw3.eu.org/` | 页头「返回门户」按钮地址；设为 `-` 可隐藏该按钮 |
+| `DNS_TEST_HOSTS` | 网页 Variables | 空 | 逗号分隔的额外探测域名，用于 DNS 出口一致性比对 |
+| `FLAG_CDN` | 网页 Variables | `https://flagcdn.com/24x18/{cc}.png` | 国旗图片模板，`{cc}` 替换小写国家码 |
 | `IP_KV` | 网页 Bindings / `[[kv_namespaces]]` | 未绑定 | 可选 KV 缓存命名空间，绑定名必须写作 `IP_KV` |
+
+> 默认值集中定义在 `src/lib/config.js` 的 `DEFAULTS`；网页端同名变量优先级更高。
 
 ---
 

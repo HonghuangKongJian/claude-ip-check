@@ -17,6 +17,7 @@ import { lookupGeo, lookupGeoBatch } from './lib/geoip.js';
 import { lookupRisk } from './lib/iprisk.js';
 import { lookupRdns } from './lib/rdns.js';
 import { isValidIP } from './lib/http.js';
+import { getVar, getList } from './lib/config.js';
 
 const VERSION = '1.0.0';
 
@@ -113,15 +114,11 @@ export default {
 
     // —— 前端配置 ——
     if (url.pathname === '/api/config') {
-      const hosts = (env.DNS_TEST_HOSTS || '')
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean);
       return json({
         version: VERSION,
-        dnsTestHosts: hosts,
-        flagCdn: env.FLAG_CDN || 'https://flagcdn.com/24x18/{cc}.png',
-        portalUrl: env.PORTAL_URL || '',
+        dnsTestHosts: getList(env, 'DNS_TEST_HOSTS'),
+        flagCdn: getVar(env, 'FLAG_CDN'),
+        portalUrl: getVar(env, 'PORTAL_URL'),
       });
     }
 

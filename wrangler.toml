@@ -20,16 +20,20 @@ run_worker_first = true
 [observability]
 enabled = true
 
-[vars]
-# 页头「返回门户」按钮指向的地址。内置固定值，部署时无需填写；如需更换可在此覆盖。
-PORTAL_URL = "https://amw3.eu.org/"
-
-# 分流一致性探测使用的额外主机名（逗号分隔）。留空则只使用当前域名。
-# 例：DNS_TEST_HOSTS = "d1.example.com,d2.example.com"
-DNS_TEST_HOSTS = ""
-
-# 国旗图片 CDN 模板，{cc} 会替换为小写两位国家码
-FLAG_CDN = "https://flagcdn.com/24x18/{cc}.png"
+# ─────────────────────────────────────────────────────────────
+# 这里刻意不声明 [vars]。
+#
+# 原因：Deploy 按钮会把 wrangler 配置中声明的变量作为「待填项」呈现给
+# 部署者。本项目所有配置都在 src/lib/config.js 内置了默认值，一键部署
+# 无需填写任何内容，因此不在此声明。
+#
+# 需要定制时，在 Cloudflare 控制台
+#   Worker → Settings → Variables and Secrets → Add
+# 添加同名变量即可覆盖内置默认值，可选键：
+#   PORTAL_URL       页头「返回门户」按钮地址
+#   DNS_TEST_HOSTS   逗号分隔的额外探测主机名
+#   FLAG_CDN         国旗图片模板，{cc} 为小写国家码
+# ─────────────────────────────────────────────────────────────
 
 # ─────────────────────────────────────────────────────────────
 # 可选：KV 缓存（强烈建议，跨 PoP 共享评分结果、显著降低回源）

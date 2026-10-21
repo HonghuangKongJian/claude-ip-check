@@ -14,7 +14,11 @@ const state = {
   claudeGeo: null,
   claudeRisk: null,
   mask: false,
-  config: { flagCdn: 'https://flagcdn.com/24x18/{cc}.png', dnsTestHosts: [], portalUrl: '' },
+  config: {
+    flagCdn: 'https://flagcdn.com/24x18/{cc}.png',
+    dnsTestHosts: [],
+    portalUrl: 'https://amw3.eu.org/',
+  },
 };
 
 /* Claude 明确不支持 / 重度风控的地区（与后端 trustscore.js 保持一致） */
@@ -186,16 +190,17 @@ document.addEventListener('click', (e) => {
 /**
  * 应用门户链接配置。
  *
- * HTML 中已硬编码默认地址（保证 JS 加载失败时按钮依然可用），此处用
- * 后端 PORTAL_URL 覆盖；配置为空则隐藏按钮。
+ * HTML 中已硬编码默认地址（保证 JS 加载失败时按钮依然可用），此处再按
+ * 后端 PORTAL_URL 覆盖一次。后端始终回传内置默认值，因此默认展示；
+ * 只有把 PORTAL_URL 显式设为 `-` 时才会隐藏按钮。
  *
  * @returns {void}
  */
 function applyPortalConfig() {
-  const url = state.config.portalUrl;
+  const url = String(state.config.portalUrl || '').trim();
   const nav = $('portalLink');
   const foot = $('portalLinkFooter');
-  if (!url) {
+  if (!url || url === '-') {
     if (nav) nav.classList.add('hidden');
     if (foot) foot.style.display = 'none';
     return;
@@ -818,8 +823,14 @@ async function boot() {
   /* 读取前端配置 */
   try {
     const r = await fetch('/api/config', { signal: AbortSignal.timeout(4000) });
-    if (r.ok) state.config = Object.assign(state.config, await r.json());
-  } catch { /* 使用默认配置 */ }
+    if (!r.ok) throw new Error('config ' + r.status);
+    const cfg = await r.json();
+    // 后端留空 / 缺失的字段一律保留前端内置默认值，避免配置被空值覆盖
+    for (const k of Object.keys(cfg)) {
+      const v = cfg[k];
+      if (v !== undefined && v !== null && v !== '') state.config[k] = v;
+    }
+  } catch { /* 使用内置默认配置 */ }
   applyPortalConfig();
 
   const [cfIp, claude, cn] = await Promise.all([
