@@ -240,19 +240,71 @@ npm run deploy:domain  # 部署并绑定 wrangler.local.toml 中声明的自定�
 
 ---
 
-### 绑定自定义域名
+<a id="绑定自定义域名"></a>
+### 绑定自定义域名（解决国内无法访问问题）
 
-`*.workers.dev` 在中国大陆常被 DNS 污染，生产使用建议绑定自有域名。
+> ⚠️ **为什么必须绑定自定义域名？**  
+> Cloudflare 分配的默认域名 `*.workers.dev` 在中国大陆地区普遍受到 **DNS 污染**（通常被错误解析到不可达 IP），导致直接打开时提示“连接超时”或“无法访问”。  
+> **只要绑定您自己的域名，Cloudflare 就会通过边缘节点代理加速，彻底解决国内网络无法打开的问题！**
 
-**网页方式**（任意部署方式均适用）
+**前提条件**：  
+您拥有一个自有域名（例如 `example.com`），且该域名的 DNS 已托管在当前 Cloudflare 的**同一个账号**下。
 
-1. 进入该 Worker → **Settings → Domains & Routes**。
-2. **Add → Custom domain**，输入 `ip.example.com`。
-3. 确认后 Cloudflare 会自动写入 DNS 记录并签发证书，等待 1–5 分钟生效。
+---
 
-前提：`example.com` 的 DNS 已托管在 Cloudflare 的**同一账号**下。
+#### 详细图文操作步骤：
 
-**命令行方式**
+##### 步骤 1：在控制台找到刚部署的 Worker
+登录 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare 控制台</a>，在左侧导航栏点击 **Workers & Pages**，在列表中找到刚部署的 **`claude-ip-check`** 并点击进入管理页面。
+
+<p align="center">
+  <img src="./docs/images/domain-step1.svg" width="720" alt="步骤 1：在 Workers 列表点击 claude-ip-check">
+</p>
+
+---
+
+##### 步骤 2：进入「Settings」中的「Domains & Routes」
+在 Worker 管理页面顶部导航中，点击 **`Settings (设置)`** 选项卡；然后在左侧设置菜单中点击 **`Domains & Routes (域和路由)`**。
+
+<p align="center">
+  <img src="./docs/images/domain-step2.svg" width="720" alt="步骤 2：进入 Settings -> Domains & Routes">
+</p>
+
+---
+
+##### 步骤 3：在「Custom Domains」卡片点击「Add」
+在页面下方的 **Custom Domains (自定义域)** 卡片右上角，点击蓝色的 **`Add`** 按钮，并在下拉项中选择 **`Custom domain`**。
+
+<p align="center">
+  <img src="./docs/images/domain-step3.svg" width="720" alt="步骤 3：点击 Add -> Custom domain">
+</p>
+
+---
+
+##### 步骤 4：输入您想要绑定的子域名并确认
+在弹出的弹窗中，输入您规划好的二级子域名（例如：`ip.example.com` 或 `claude.example.com`），然后点击右下角的 **`Add Custom Domain`** 确认添加。
+
+> 💡 **无需手动做 DNS 解析**：Cloudflare 会自动在您的域名 DNS 区域写入 CNAME 记录，并自动免费签发 Universal SSL 证书。
+
+<p align="center">
+  <img src="./docs/images/domain-step4.svg" width="720" alt="步骤 4：输入子域名并确认">
+</p>
+
+---
+
+##### 步骤 5：等待生效（1–3分钟），直接访问！
+添加完成后，列表中的域名状态会由 `Initializing` 变为绿色的 **`● Active`**（通常耗时约 1–3 分钟）。
+
+状态变为 `Active` 后，即可直接在任意网络环境下打开您的专属站点：  
+👉 **`https://ip.example.com`**
+
+<p align="center">
+  <img src="./docs/images/domain-step5.svg" width="720" alt="步骤 5：域名绑定成功，状态变为 Active">
+</p>
+
+---
+
+#### 进阶方式：通过本地命令行绑定（开发者可选）
 
 在个人配置文件 `wrangler.local.toml` 中声明（该文件已在 `.gitignore` 中，不会进入仓库）：
 

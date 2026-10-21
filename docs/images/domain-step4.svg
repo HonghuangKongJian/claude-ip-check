@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .backdrop { fill: #0f172a; opacity: 0.45; }
+      .modal { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); rx: 10px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 600; fill: #0f172a; }
+      .text-muted { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #334155; }
+      .input-box { fill: #ffffff; stroke: #0051c3; stroke-width: 2; rx: 6px; }
+      .btn-primary { fill: #0051c3; rx: 6px; }
+      .btn-secondary { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1; rx: 6px; }
+      .btn-text-white { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #ffffff; }
+      .highlight-box { fill: none; stroke: #ef4444; stroke-width: 2.5; stroke-dasharray: 6 3; rx: 6px; }
+    </style>
+  </defs>
+
+  <!-- 虚化底色 -->
+  <rect width="760" height="380" fill="#f8fafc" rx="10" />
+  <rect width="760" height="380" class="backdrop" rx="10" />
+
+  <!-- 模态弹窗 -->
+  <rect x="130" y="35" width="500" height="310" class="modal" />
+
+  <!-- 弹窗标题 -->
+  <text x="160" y="75" class="text-title" font-size="18">添加自定义域 (Add a Custom Domain)</text>
+  <text x="595" y="72" font-family="-apple-system, sans-serif" font-size="18" fill="#94a3b8">✕</text>
+  <line x1="130" y1="95" x2="630" y2="95" stroke="#f1f5f9" stroke-width="1.5" />
+
+  <!-- 输入区域说明 -->
+  <text x="160" y="125" class="text-body" font-weight="600">域名 (Domain)</text>
+  <text x="160" y="145" class="text-muted">输入您希望绑定的子域名或根域名（前提：该主域名已托管在 Cloudflare 同一账号）</text>
+
+  <!-- 输入框 -->
+  <rect x="160" y="160" width="440" height="42" class="input-box" />
+  <text x="175" y="186" font-family="monospace" font-size="14" font-weight="600" fill="#0f172a">ip.example.com</text>
+  <line x1="305" y1="171" x2="305" y2="191" stroke="#0051c3" stroke-width="2" /> <!-- 光标 -->
+
+  <!-- 说明提示条 -->
+  <rect x="160" y="215" width="440" height="50" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1" />
+  <circle cx="178" cy="240" r="7" fill="#16a34a" />
+  <text x="175" y="244" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="10" font-weight="bold">✓</text>
+  <text x="195" y="236" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#166534">Cloudflare 将自动处理一切：</text>
+  <text x="195" y="254" font-family="-apple-system, sans-serif" font-size="11" fill="#15803d">自动在您的 DNS 区域添加 CNAME 记录，并免费自动签发 Universal SSL 证书。</text>
+
+  <!-- 底部操作按钮 -->
+  <line x1="130" y1="280" x2="630" y2="280" stroke="#f1f5f9" stroke-width="1" />
+  
+  <rect x="375" y="295" width="75" height="34" class="btn-secondary" />
+  <text x="394" y="316" font-family="-apple-system, sans-serif" font-size="13" fill="#475569">取消</text>
+
+  <rect x="460" y="295" width="140" height="34" class="btn-primary" />
+  <text x="473" y="316" class="btn-text-white">Add Custom Domain</text>
+
+  <!-- 红框高亮 -->
+  <rect x="156" y="156" width="448" height="50" class="highlight-box" />
+  <rect x="456" y="291" width="148" height="42" class="highlight-box" />
+
+  <!-- 步骤标识 -->
+  <g transform="translate(40, 165)">
+    <rect width="105" height="28" rx="14" fill="#ef4444" />
+    <text x="10" y="18" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold">① 填入子域名</text>
+  </g>
+
+  <g transform="translate(460, 255)">
+    <rect width="130" height="28" rx="14" fill="#ef4444" />
+    <text x="10" y="18" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold">② 点击确认添加</text>
+  </g>
+</svg>

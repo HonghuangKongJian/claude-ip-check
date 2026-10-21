@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .card { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; rx: 8px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; fill: #0f172a; }
+      .text-muted { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #334155; }
+      .tab-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 500; fill: #64748b; }
+      .tab-active { font-weight: 600; fill: #0051c3; }
+      .highlight-box { fill: none; stroke: #ef4444; stroke-width: 2.5; stroke-dasharray: 6 3; rx: 6px; }
+      .header-bar { fill: #0f172a; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="760" height="380" class="bg" rx="10" />
+
+  <!-- 顶部面包屑与标题 -->
+  <rect width="760" height="46" class="header-bar" />
+  <circle cx="28" cy="23" r="10" fill="#f38020" />
+  <text x="46" y="28" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="14" font-weight="bold">Cloudflare</text>
+  <text x="135" y="28" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="13">/ Workers / claude-ip-check</text>
+
+  <rect x="0" y="46" width="760" height="54" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="30" y="80" class="text-title" font-size="18">claude-ip-check</text>
+  <rect x="180" y="66" width="56" height="20" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="1" />
+  <text x="193" y="80" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold" fill="#166534">已部署</text>
+
+  <!-- Tab 导航 -->
+  <rect x="0" y="100" width="760" height="42" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="40" y="126" class="tab-text">Overview (概览)</text>
+  <text x="160" y="126" class="tab-text">Deployments (部署)</text>
+  <text x="300" y="126" class="tab-text">Logs (实时日志)</text>
+  <text x="410" y="126" class="tab-text tab-active">Settings (设置)</text>
+  <line x1="400" y1="140" x2="495" y2="140" stroke="#0051c3" stroke-width="2.5" />
+
+  <!-- 步骤 1 红框：点击 Settings -->
+  <rect x="395" y="108" width="105" height="30" class="highlight-box" />
+  <g transform="translate(515, 107)">
+    <rect width="135" height="26" rx="13" fill="#ef4444" />
+    <text x="12" y="17" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold">① 点击 Settings</text>
+  </g>
+
+  <!-- Settings 内部左侧子菜单 -->
+  <rect x="30" y="160" width="200" height="195" class="card" />
+  <text x="50" y="190" class="text-body">General (常规)</text>
+  
+  <!-- 选中的 Domains & Routes -->
+  <rect x="40" y="206" width="180" height="34" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+  <text x="52" y="228" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0051c3">Domains &amp; Routes (域和路由)</text>
+
+  <text x="50" y="268" class="text-body">Variables (环境变量)</text>
+  <text x="50" y="300" class="text-body">Builds (构建设置)</text>
+  <text x="50" y="332" class="text-body">Triggers (触发器)</text>
+
+  <!-- 步骤 2 红框：点击 Domains & Routes -->
+  <rect x="38" y="204" width="184" height="38" class="highlight-box" />
+
+  <!-- 右侧内容示意 -->
+  <rect x="250" y="160" width="480" height="195" class="card" />
+  <text x="275" y="196" class="text-title">域和路由 (Domains &amp; Routes)</text>
+  <text x="275" y="220" class="text-muted">自定义访问域名，可替代被阻断的 workers.dev 域名</text>
+
+  <g transform="translate(275, 250)">
+    <rect width="180" height="32" rx="16" fill="#ef4444" />
+    <text x="12" y="21" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold">② 点击 Domains &amp; Routes</text>
+  </g>
+</svg>

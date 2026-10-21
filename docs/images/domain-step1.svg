@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .card { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; rx: 8px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; fill: #0f172a; }
+      .text-muted { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #334155; }
+      .badge-green { fill: #dcfce7; stroke: #86efac; stroke-width: 1; rx: 4px; }
+      .badge-green-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #166534; }
+      .highlight-box { fill: none; stroke: #ef4444; stroke-width: 2.5; stroke-dasharray: 6 3; rx: 6px; }
+      .header-bar { fill: #0f172a; }
+      .sidebar { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .active-nav { fill: #eff6ff; stroke: #bfdbfe; stroke-width: 1; rx: 6px; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="760" height="380" class="bg" rx="10" />
+
+  <!-- 顶部导航栏 -->
+  <rect width="760" height="46" class="header-bar" />
+  <circle cx="28" cy="23" r="10" fill="#f38020" />
+  <text x="46" y="28" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="14" font-weight="bold">Cloudflare</text>
+  <text x="135" y="28" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="13">/ 仪表板</text>
+
+  <!-- 左侧边栏 -->
+  <rect x="0" y="46" width="180" height="334" class="sidebar" />
+  <text x="20" y="78" class="text-muted" font-size="11" font-weight="600">账户主页</text>
+  <text x="20" y="106" class="text-body">网站 (Websites)</text>
+  
+  <rect x="10" y="122" width="160" height="34" class="active-nav" />
+  <circle cx="25" cy="139" r="4" fill="#0051c3" />
+  <text x="36" y="144" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0051c3">Workers &amp; Pages</text>
+
+  <text x="20" y="184" class="text-body">Zero Trust</text>
+  <text x="20" y="214" class="text-body">DNS 区域</text>
+
+  <!-- 右侧主内容区 -->
+  <text x="204" y="82" class="text-title" font-size="18">Workers 和 Pages</text>
+  <text x="204" y="104" class="text-muted">管理、部署边缘应用程序与静态页面</text>
+
+  <!-- 列表卡片 -->
+  <rect x="204" y="126" width="532" height="210" class="card" />
+  <rect x="204" y="126" width="532" height="38" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" rx="8" />
+  <text x="224" y="150" class="text-muted" font-weight="600">名称</text>
+  <text x="450" y="150" class="text-muted" font-weight="600">部署状态</text>
+  <text x="580" y="150" class="text-muted" font-weight="600">类型</text>
+
+  <!-- 第一行：目标 Worker -->
+  <text x="224" y="188" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#0051c3">claude-ip-check</text>
+  <text x="224" y="206" class="text-muted" font-size="11">claude-ip-check.*.workers.dev</text>
+  <rect x="450" y="177" width="56" height="22" class="badge-green" />
+  <text x="462" y="192" class="badge-green-text">活跃</text>
+  <text x="580" y="192" class="text-body">Worker</text>
+
+  <!-- 第二行：示例 -->
+  <line x1="204" y1="222" x2="736" y2="222" stroke="#f1f5f9" stroke-width="1" />
+  <text x="224" y="248" class="text-body" font-weight="500">my-other-project</text>
+  <rect x="450" y="237" width="56" height="22" class="badge-green" />
+  <text x="462" y="252" class="badge-green-text">活跃</text>
+  <text x="580" y="252" class="text-body">Worker</text>
+
+  <!-- 红框高亮提示 -->
+  <rect x="216" y="170" width="168" height="44" class="highlight-box" />
+  
+  <!-- 引导标签和箭头 -->
+  <g transform="translate(395, 175)">
+    <rect width="170" height="32" rx="16" fill="#ef4444" />
+    <text x="14" y="21" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold">👉 点击进入此 Worker</text>
+  </g>
+</svg>

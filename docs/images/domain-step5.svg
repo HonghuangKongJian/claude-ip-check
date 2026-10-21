@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .card { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; rx: 8px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; fill: #0f172a; }
+      .text-muted { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #334155; }
+      .badge-active { fill: #dcfce7; stroke: #86efac; stroke-width: 1; rx: 12px; }
+      .badge-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; fill: #15803d; }
+      .success-box { fill: #f0fdf4; stroke: #86efac; stroke-width: 1.5; rx: 8px; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="760" height="380" class="bg" rx="10" />
+
+  <!-- 顶部标题 -->
+  <text x="30" y="45" class="text-title" font-size="18">自定义域绑定结果 (Custom Domains)</text>
+  <text x="30" y="70" class="text-muted">Cloudflare 会在 1–5 分钟内自动完成证书申请与 DNS 传播</text>
+
+  <!-- 域名卡片 -->
+  <rect x="30" y="90" width="700" height="150" class="card" />
+  
+  <text x="50" y="125" class="text-title" font-size="16">已配置的自定义域名</text>
+
+  <!-- 域名列表表头 -->
+  <rect x="50" y="145" width="660" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" rx="4" />
+  <text x="65" y="165" class="text-muted" font-weight="600">域名 (Domain)</text>
+  <text x="280" y="165" class="text-muted" font-weight="600">证书与 DNS 状态</text>
+  <text x="520" y="165" class="text-muted" font-weight="600">生效状态</text>
+
+  <!-- 域名列表条目 -->
+  <text x="65" y="205" font-family="monospace" font-size="14" font-weight="bold" fill="#0051c3">ip.example.com</text>
+  <text x="280" y="200" class="text-body">自动 DNS (Proxied 代理)</text>
+  <text x="280" y="218" class="text-muted" font-size="11">Cloudflare SSL 证书有效</text>
+
+  <!-- Active 状态徽章 -->
+  <rect x="520" y="190" width="95" height="26" class="badge-active" />
+  <circle cx="534" cy="203" r="4" fill="#16a34a" />
+  <text x="544" y="207" class="badge-text">● Active (有效)</text>
+
+  <!-- 绿色成功通告条 -->
+  <rect x="30" y="260" width="700" height="90" class="success-box" />
+  <circle cx="65" cy="305" r="18" fill="#16a34a" />
+  <text x="57" y="312" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="20" font-weight="bold">✓</text>
+
+  <text x="100" y="295" font-family="-apple-system, sans-serif" font-size="15" font-weight="bold" fill="#166534">🎉 自定义域名绑定成功！</text>
+  <text x="100" y="322" font-family="-apple-system, sans-serif" font-size="13" fill="#15803d">现在您可以在浏览器中直接打开：<tspan font-family="monospace" font-weight="bold">https://ip.example.com</tspan></text>
+  <text x="100" y="340" font-family="-apple-system, sans-serif" font-size="12" fill="#64748b">该访问通过 Cloudflare 边缘节点代理加速，完美避开 *.workers.dev 的境内 DNS 污染！</text>
+</svg>

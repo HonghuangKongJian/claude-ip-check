@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .card { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; rx: 8px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; fill: #0f172a; }
+      .text-muted { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #334155; }
+      .btn-blue { fill: #0051c3; rx: 6px; }
+      .btn-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #ffffff; }
+      .highlight-box { fill: none; stroke: #ef4444; stroke-width: 2.5; stroke-dasharray: 6 3; rx: 6px; }
+      .menu-popup { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); rx: 6px; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="760" height="380" class="bg" rx="10" />
+
+  <!-- 顶部标题区 -->
+  <text x="30" y="45" class="text-title" font-size="18">域和路由 (Domains &amp; Routes)</text>
+  <text x="30" y="70" class="text-muted">管理连接到此 Worker 的外部域名和路由规则</text>
+
+  <!-- Workers.dev 卡片 -->
+  <rect x="30" y="90" width="700" height="65" class="card" />
+  <text x="50" y="118" class="text-title">workers.dev 域名</text>
+  <text x="50" y="138" font-family="monospace" font-size="12" fill="#64748b">https://claude-ip-check.*.workers.dev</text>
+  <text x="510" y="128" font-family="-apple-system, sans-serif" font-size="11" fill="#dc2626">⚠️ 大陆地区可能存在 DNS 污染</text>
+
+  <!-- 自定义域卡片 -->
+  <rect x="30" y="175" width="700" height="175" class="card" />
+  <text x="50" y="210" class="text-title" font-size="16">自定义域 (Custom Domains)</text>
+  <text x="50" y="235" class="text-muted">绑定已托管在 Cloudflare 上的域名，Cloudflare 会自动完成 DNS 解析配置与证书签发。</text>
+
+  <rect x="50" y="255" width="660" height="75" fill="#f8fafc" stroke="#e2e8f0" stroke-dasharray="4 4" rx="6" />
+  <text x="70" y="295" class="text-muted">当前尚未添加自定义域。点击右上角按钮添加您的自有域名。</text>
+
+  <!-- Add 按钮 -->
+  <rect x="590" y="195" width="120" height="34" class="btn-blue" />
+  <text x="618" y="217" class="btn-text">Add (添加) ▾</text>
+
+  <!-- 下拉菜单展开效果 -->
+  <rect x="550" y="234" width="160" height="72" class="menu-popup" />
+  <rect x="555" y="239" width="150" height="30" rx="4" fill="#eff6ff" />
+  <text x="568" y="259" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0051c3">● Custom domain</text>
+  <text x="568" y="291" class="text-body">○ Route (路由)</text>
+
+  <!-- 红色高亮与提示框 -->
+  <rect x="546" y="190" width="172" height="122" class="highlight-box" />
+  
+  <g transform="translate(340, 245)">
+    <rect width="190" height="34" rx="17" fill="#ef4444" />
+    <text x="14" y="22" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold">👉 点击 Add → Custom domain</text>
+  </g>
+</svg>
