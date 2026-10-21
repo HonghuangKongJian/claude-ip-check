@@ -133,7 +133,10 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 **第 2 步：在 Cloudflare 控制台导入仓库**
 
 1. 登录 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare 控制台</a>，进入 **Workers & Pages → Create（创建）**（或直接点击 README 顶部的第二步按钮）。
-2. 在“创建新项目”页面中，**点击【Continue with GitHub】卡片**（卡片右上角的绿点表示已授权连接，点击它即可进入仓库选择列表）。
+2. 在“创建新项目”页面中，**点击【Continue with GitHub】卡片**（卡片右上角的绿点表示已授权连接，点击它即可进入仓库选择列表）：
+
+   <img src="./docs/images/cf-connect-github.png" width="520" alt="Cloudflare 创建新项目：点击 Continue with GitHub">
+
 3. 在弹出的仓库列表中，选中刚刚 Fork 的 **`claude-ip-check`**。
 
 > 💡 **若列表中找不到刚 Fork 的仓库**：说明初次授权时勾选了“仅选择指定仓库”。点击列表上方的 *Configure GitHub app* 或 *Adjust permissions*，勾选新增的 `claude-ip-check` 即可。
