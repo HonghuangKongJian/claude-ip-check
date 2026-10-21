@@ -14,11 +14,11 @@
 
 | 第一步：Fork 仓库到个人账号 | 第二步：导入 Cloudflare 部署 |
 | :---: | :---: |
-| [![Fork on GitHub](https://img.shields.io/badge/1._点击_Fork_本项目-24292e?style=for-the-badge&logo=github&logoColor=white)](https://github.com/14649814/claude-ip-check/fork) | [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://dash.cloudflare.com/?to=/:account/workers-and-pages/create) |
+| <a href="https://github.com/14649814/claude-ip-check/fork" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/1._点击_Fork_本项目-24292e?style=for-the-badge&logo=github&logoColor=white" alt="Fork on GitHub"></a> | <a href="https://dash.cloudflare.com/?to=/:account/workers-and-pages/create" target="_blank" rel="noopener noreferrer"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare"></a> |
 
 > 📌 **操作提示**：进入 Cloudflare 控制台后，页面会显示 **`Continue with GitHub`**（右上角带绿点），**点击该卡片**即可进入仓库列表选择 `claude-ip-check`。
 
-*(若不想在个人 GitHub 建立 Fork 关系，也可直接使用 [Cloudflare 独立克隆部署按钮](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check))*
+*(若不想在个人 GitHub 建立 Fork 关系，也可直接使用 <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check" target="_blank" rel="noopener noreferrer">Cloudflare 独立克隆部署按钮</a>)*
 
 **目录**
 
@@ -123,12 +123,12 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 **第 1 步：Fork 仓库到自己的 GitHub**
 
-1. 确保已登录 GitHub，点击 👉 **[一键 Fork 本项目](https://github.com/14649814/claude-ip-check/fork)**。
+1. 确保已登录 GitHub，点击 👉 <a href="https://github.com/14649814/claude-ip-check/fork" target="_blank" rel="noopener noreferrer">一键 Fork 本项目</a>。
 2. 保持默认仓库名 `claude-ip-check`，点击绿色的 **Create fork**（约 3 秒完成）。
 
 **第 2 步：在 Cloudflare 控制台导入仓库**
 
-1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)，进入 **Workers & Pages → Create（创建）**（或直接点击 README 顶部的第二步按钮）。
+1. 登录 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare 控制台</a>，进入 **Workers & Pages → Create（创建）**（或直接点击 README 顶部的第二步按钮）。
 2. 在“创建新项目”页面中，**点击【Continue with GitHub】卡片**（卡片右上角的绿点表示已授权连接，点击它即可进入仓库选择列表）。
 3. 在弹出的仓库列表中，选中刚刚 Fork 的 **`claude-ip-check`**。
 
@@ -161,7 +161,7 @@ Cloudflare Workers **无法获取请求方的递归解析器 IP**（Cloudflare �
 
 若不想与原项目建立 GitHub Fork 关系，可使用 Cloudflare 官方提供的 Deploy 按钮：
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check)
+<a href="https://deploy.workers.cloudflare.com/?url=https://github.com/14649814/claude-ip-check" target="_blank" rel="noopener noreferrer"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare"></a>
 
 Cloudflare 会在获得授权后，调用 API 在您的 GitHub 下**克隆创建一个全新独立的同名仓库**并自动绑定部署：
 
