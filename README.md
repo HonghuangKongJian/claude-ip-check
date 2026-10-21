@@ -3,7 +3,8 @@
 一套 **可完整部署在 Cloudflare** 的 Claude AI 出口 IP 风险检测页。
 后端为单个 Cloudflare Worker（静态资源通过 Assets 绑定同仓托管），无需服务器、无数据库依赖，全球边缘运行。
 
-演示站：<https://ipcheck.amw3.eu.org>
+- **演示站点**：<https://ipcheck.amw3.eu.org>
+- **洪荒空间门户**：<https://amw3.eu.org>（开发者与网络全能矩阵门户，统一聚合 IP 网络工具箱、Claude 风险检测、QR 工坊及 80+ 离线实用工具矩阵）
 
 ---
 
@@ -243,7 +244,7 @@ npm run deploy:domain  # 部署并绑定 wrangler.local.toml 中声明的自定�
 <a id="绑定自定义域名"></a>
 ### 绑定自定义域名（解决国内无法访问问题）
 
-`*.workers.dev` 域名在中国大陆常被 DNS 污染阻断（提示连接超时或无法访问）。若需在境内网络环境下免代理极速直连，强烈建议将 Worker 绑定到自有域名上。
+`*.workers.dev` 域名在中国大陆常被 DNS 污染阻断（提示连接超时或无法访问）。若需在境内网络环境下免代理极速直连，强烈建议将 Worker 绑定到自有域名上（本项目演示站即通过此方式绑定至 `ipcheck.amw3.eu.org`，作为 <a href="https://amw3.eu.org" target="_blank" rel="noopener noreferrer">洪荒空间门户 (amw3.eu.org)</a> 生态矩阵的子工具稳定运行）。
 
 > 📖 **保姆级图文教程直达**：  
 > 详细的 5 步高清界面实操图解已发布至博客，欢迎对照查阅：  
