@@ -41,6 +41,9 @@ Cloudflare 官方为每个账户分配的免费测试二级域名形如：`https
 1. **一个已部署好的 Cloudflare Worker**（例如 `claude-ip-check`）；
 2. **一个自有域名**（例如 `example.com`），且该域名的权威 Nameservers（DNS）**已经托管在当前的 Cloudflare 同一账号下**。
 
+> 💡 **手头还没有域名？**  
+> 别担心，可以直接参考配套的零成本申请指南：👉 **[没有域名怎么办？2026 最新免费域名申请并接入 Cloudflare 教程](./free-domain-tutorial.md)**。
+
 ---
 
 ## 三、保姆级图文操作步骤（5 步搞定）

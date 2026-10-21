@@ -246,6 +246,9 @@ npm run deploy:domain  # 部署并绑定 wrangler.local.toml 中声明的自定�
 
 `*.workers.dev` 域名在中国大陆常被 DNS 污染阻断（提示连接超时或无法访问）。若需在境内网络环境下免代理极速直连，强烈建议将 Worker 绑定到自有域名上（本项目演示站即通过此方式绑定至 `ipcheck.amw3.eu.org`，作为 <a href="https://amw3.eu.org" target="_blank" rel="noopener noreferrer">洪荒空间门户 (amw3.eu.org)</a> 生态矩阵的子工具稳定运行）。
 
+> 💡 **没有自己的域名？**  
+> 可参考我们整理的配套指南：👉 [**2026 最新免费域名申请并接入 Cloudflare 教程 (docs/free-domain-tutorial.md)**](./docs/free-domain-tutorial.md)，零成本搞定并完成解析托管。
+
 > 📖 **保姆级图文教程直达**：  
 > 详细的 5 步高清界面实操图解已发布至博客，欢迎对照查阅：  
 > 👉 <a href="https://blog.amw3.eu.org/?p=39" target="_blank" rel="noopener noreferrer"><strong>Cloudflare Workers 绑定自定义域名图文指南（https://blog.amw3.eu.org/?p=39）</strong></a>
