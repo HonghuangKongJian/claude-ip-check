@@ -92,6 +92,32 @@ body {
   .nav .portal-btn { padding: 3px 9px; font-size: 0.92em; }
 }
 
+.nav .nav-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 12px;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+  border-radius: 999px;
+  color: #f59e0b;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-family: inherit;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav .nav-donate-btn:hover {
+  background: #f59e0b;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+}
+@media (max-width: 520px) {
+  .nav .nav-donate-btn { padding: 3px 8px; font-size: 0.88em; }
+}
+
 .ts-wrap { position: relative; margin-left: auto; }
 .ts-btn {
   width: 28px; height: 28px; border-radius: 50%;
