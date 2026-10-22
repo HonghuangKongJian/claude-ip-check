@@ -204,7 +204,7 @@
       <button id="btnPayAli" class="donate-tab-btn" onclick="switchDonate('alipay')">🔵 支付宝</button>
     </div>
     <div class="donate-qr-box">
-      <img id="donateQrImg" src="https://amw3.eu.org/wechat-reward.png" alt="赞赏收款码" />
+      <img id="donateQrImg" src="/wechat-reward.png" alt="赞赏收款码" onerror="if(this.src.indexOf('amw3.eu.org')===-1){this.src='https://amw3.eu.org/wechat-reward.png';}" />
     </div>
     <p id="donateTip" class="donate-tip">请使用微信「扫一扫」支持作者</p>
     <div class="donate-pills">
@@ -232,12 +232,22 @@ function switchDonate(t) {
   if (t === 'wechat') {
     wx.className = 'donate-tab-btn active-wx';
     ali.className = 'donate-tab-btn';
-    img.src = 'https://amw3.eu.org/wechat-reward.png';
+    img.src = '/wechat-reward.png';
+    img.onerror = function() {
+      if (this.src.indexOf('amw3.eu.org') === -1) {
+        this.src = 'https://amw3.eu.org/wechat-reward.png';
+      }
+    };
     tip.innerText = '请使用微信「扫一扫」支持作者';
   } else {
     ali.className = 'donate-tab-btn active-ali';
     wx.className = 'donate-tab-btn';
-    img.src = 'https://amw3.eu.org/alipay-reward.png';
+    img.src = '/alipay-reward.png';
+    img.onerror = function() {
+      if (this.src.indexOf('amw3.eu.org') === -1) {
+        this.src = 'https://amw3.eu.org/alipay-reward.png';
+      }
+    };
     tip.innerText = '请使用支付宝「扫一扫」支持作者';
   }
 }
