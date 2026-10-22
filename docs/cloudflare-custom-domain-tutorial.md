@@ -42,7 +42,7 @@ Cloudflare 官方为每个账户分配的免费测试二级域名形如：`https
 2. **一个自有域名**（例如 `example.com`），且该域名的权威 Nameservers（DNS）**已经托管在当前的 Cloudflare 同一账号下**。
 
 > 💡 **手头还没有域名？**  
-> 别担心，可以直接参考配套的零成本申请指南：👉 **[没有域名怎么办？2026 最新免费域名申请并接入 Cloudflare 教程](./free-domain-tutorial.md)**。
+> 别担心，可以直接参考配套的零成本申请指南：👉 **[没有域名怎么办？2026 最新免费域名申请并接入 Cloudflare 教程 (https://blog.amw3.eu.org/?p=42)](https://blog.amw3.eu.org/?p=42)**。
 
 ---
 
@@ -128,9 +128,14 @@ Cloudflare 官方为每个账户分配的免费测试二级域名形如：`https
 
 ---
 
-## 五、结语
+## 五、结语与延伸阅读
 
 通过 Cloudflare Custom Domains 功能，我们无需购置境外 VPS 服务器，也不需要繁琐的 Nginx 反向代理配置，仅用几分钟就能把边缘服务无缝发布到自有域名下。这也是目前部署 Cloudflare 边缘工具矩阵（如 [cf-claude-ip-check](https://github.com/14649814/claude-ip-check)）最稳定、体验最好的标准落地方式。
+
+### 📚 系列教程与延伸推荐
+- 🔗 **上篇前置指南**：[没有域名怎么办？2026 最新免费域名申请并接入 Cloudflare 教程 (https://blog.amw3.eu.org/?p=42)](https://blog.amw3.eu.org/?p=42)
+- 🔗 **本篇在线地址**：[Cloudflare Workers 绑定自定义域名图文指南 (https://blog.amw3.eu.org/?p=39)](https://blog.amw3.eu.org/?p=39)
+- 🔗 **开源项目仓库**：[GitHub - 14649814/claude-ip-check](https://github.com/14649814/claude-ip-check)
 
 ---
 

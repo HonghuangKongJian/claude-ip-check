@@ -19,7 +19,7 @@ description: 详细汇总 2026 年依然存活可用的免费域名申请途径�
 
 > **“Cloudflare 默认分配的 `workers.dev` 域名在境内被 DNS 污染无法访问，但我手头没有自己的域名，怎么办？”**
 
-别慌！本文为你整理了 **2026 年最新、真实可用、支持修改 NS 记录接入 Cloudflare 的免费域名申请方案**，带你从零白嫖一个属于自己的域名并完成托管！
+别慌！本文为你整理了 **2026 年最新、真实可用、支持修改 NS 记录接入 Cloudflare 的免费域名申请方案**。搞定域名后，即可直接配合下篇教程 👉 **[Cloudflare Workers 绑定自定义域名保姆级图文指南 (https://blog.amw3.eu.org/?p=39)](https://blog.amw3.eu.org/?p=39)**，实现免代理极速访问！
 
 ---
 
@@ -108,6 +108,11 @@ description: 详细汇总 2026 年依然存活可用的免费域名申请途径�
 👉 **[Cloudflare Workers 绑定自定义域名图文指南 (https://blog.amw3.eu.org/?p=39)](https://blog.amw3.eu.org/?p=39)**
 
 只需 2 分钟，即可实现境内无代理秒开你的专属工具！
+
+### 📚 系列教程与延伸推荐
+- 🔗 **下篇实战指南**：[Cloudflare Workers 绑定自定义域名图文教程 (https://blog.amw3.eu.org/?p=39)](https://blog.amw3.eu.org/?p=39)
+- 🔗 **本篇在线地址**：[没有域名怎么办？2026 免费域名申请并接入 Cloudflare 教程 (https://blog.amw3.eu.org/?p=42)](https://blog.amw3.eu.org/?p=42)
+- 🔗 **开源项目仓库**：[GitHub - 14649814/claude-ip-check](https://github.com/14649814/claude-ip-check)
 
 ---
 
