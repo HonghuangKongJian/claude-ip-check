@@ -187,8 +187,63 @@
 <footer>
   &copy; 2026 Claude IP 检测 · Powered by Cloudflare Workers ·
   <a href="/api/healthz">健康检查</a> ·
+  <button onclick="openDonateModal()" class="footer-donate-btn" title="赞赏与支持作者">☕ 赞赏支持</button> ·
   <a href="https://amw3.eu.org/" id="portalLinkFooter">返回门户</a>
 </footer>
+
+<!-- 赞赏模态框 -->
+<div id="donateModal" class="donate-modal" onclick="if(event.target===this)closeDonateModal()">
+  <div class="donate-card">
+    <button class="donate-close" onclick="closeDonateModal()">&times;</button>
+    <div class="donate-icon">☕</div>
+    <h3 class="donate-title">赞赏与支持作者</h3>
+    <p class="donate-desc">您的支持是维护本站全球节点与持续迭代的最大动力</p>
+    <div class="donate-tabs">
+      <button id="btnPayWx" class="donate-tab-btn active-wx" onclick="switchDonate('wechat')">🟢 微信支付</button>
+      <button id="btnPayAli" class="donate-tab-btn" onclick="switchDonate('alipay')">🔵 支付宝</button>
+    </div>
+    <div class="donate-qr-box">
+      <img id="donateQrImg" src="https://amw3.eu.org/wechat-reward.png" alt="赞赏收款码" />
+    </div>
+    <p id="donateTip" class="donate-tip">请使用微信「扫一扫」支持作者</p>
+    <div class="donate-pills">
+      <span>☕ 请喝咖啡</span>
+      <span>⚡ 赞助节点</span>
+      <span>🚀 随意心意</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDonateModal() {
+  var m = document.getElementById('donateModal');
+  if (m) { m.classList.add('active'); switchDonate('wechat'); }
+}
+function closeDonateModal() {
+  var m = document.getElementById('donateModal');
+  if (m) m.classList.remove('active');
+}
+function switchDonate(t) {
+  var wx = document.getElementById('btnPayWx');
+  var ali = document.getElementById('btnPayAli');
+  var img = document.getElementById('donateQrImg');
+  var tip = document.getElementById('donateTip');
+  if (t === 'wechat') {
+    wx.className = 'donate-tab-btn active-wx';
+    ali.className = 'donate-tab-btn';
+    img.src = 'https://amw3.eu.org/wechat-reward.png';
+    tip.innerText = '请使用微信「扫一扫」支持作者';
+  } else {
+    ali.className = 'donate-tab-btn active-ali';
+    wx.className = 'donate-tab-btn';
+    img.src = 'https://amw3.eu.org/alipay-reward.png';
+    tip.innerText = '请使用支付宝「扫一扫」支持作者';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDonateModal();
+});
+</script>
 
 <script src="/app.js"></script>
 </body>
